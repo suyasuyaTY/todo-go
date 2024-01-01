@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>{{ .Title }} | todolist.go</title>
+  </head>
+  <body>
+    <h1>List of tasks</h1>
+    <p><a href="/task/new">新規登録</a></p>
+    {{ if not .Tasks }}
+    <p>登録データがありません．</p>
+    {{ else }}
+    <div class="task_list">
+      {{ range $task := .Tasks }}
+      <div class="task">
+        <div class="id"><a href="/task/{{ $task.ID }}">{{ $task.ID }}</a></div>
+        <div class="title">{{ $task.Title }}</div>
+        <div class="description">{{ $task.Description}}</div>
+        <div class="isDone">{{ if $task.IsDone }}済{{ end }}</div>
+      </div>
+      {{ end }}
+    </div>
+    {{ end }}
+  </body>
+</html>

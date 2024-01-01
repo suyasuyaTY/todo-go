@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>{{ .Title }} | todolist.go</title>
+  </head>
+  <body>
+    <h1>Task: {{ .Task.Title }}</h1>
+    <dl>
+      <dt>ID</dt>
+      <dd>{{ .Task.ID }}</dd>
+      <dt>Created at</dt>
+      <dd>{{ .Task.CreatedAt }}</dd>
+      <dt>Description</dt>
+      <dd>{{ .Task.Description }}</dd>
+      <dt>Status</dt>
+      <dd>
+        <input
+          type="checkbox"
+          {{
+          if
+          .Task.IsDone
+          }}checked
+          {{
+          end
+          }}disabled
+        />済
+      </dd>
+    </dl>
+    <a href="/list"><button type="button">リストへ戻る</button></a>
+    <a href="/task/edit/{{ .Task.ID }}"><button type="button">編集</button></a>
+    <a href="/task/delete/{{ .Task.ID}}"><button type="button">削除</button></a>
+  </body>
+</html>

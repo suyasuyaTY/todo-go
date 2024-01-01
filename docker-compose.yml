@@ -1,0 +1,40 @@
+version: "3.8"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app
+    tty: true
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+    volumes:
+      - .:/go/src/app
+    ports:
+      - ${APP_PORT}:8000
+    depends_on:
+      - db
+  db:
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+    platform: linux/x86_64
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      TZ: ${TZ}
+    volumes:
+      - data-volume:/var/lib/mysql
+      - ./db/sql:/docker-entrypoint-initdb.d
+        # - ./db/data:/var/lib/mysql ## uncomment to keep the data
+    ports:
+      - ${DB_PORT}:3306
+volumes:
+  data-volume:
